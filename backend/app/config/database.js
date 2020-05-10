@@ -10,7 +10,9 @@ class DBWrapper {
     async connect() {
         if (this.db === null) {
             console.log('connected')
-            this.__client = new MongoClient(config[config.env].database.uri);
+            this.__client = new MongoClient(config[config.env].database.uri, {
+                useUnifiedTopology: true
+            });
             this.db = (await this.__client.connect()).db();
         }
 
