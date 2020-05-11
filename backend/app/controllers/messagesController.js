@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb';
 class MessagesController extends BaseController {
 
     async read(req, res, next) {
-
+        // TODO
     }
 
     async create(req, res, next) {
