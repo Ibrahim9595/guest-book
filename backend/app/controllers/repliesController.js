@@ -5,7 +5,13 @@ import { ObjectId } from 'mongodb';
 class RepliesController extends BaseController {
 
     async read(req, res, next) {
-        // TODO
+        try {
+            const { message_id } = req.params;
+            const data = await ReplyModel.findWithUsers(message_id);
+            this.success(res, 200, data);
+        } catch (error) {
+            next(error);
+        }
     }
 
     async create(req, res, next) {
