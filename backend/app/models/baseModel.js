@@ -42,6 +42,12 @@ export class BaseModel {
         return res;
     }
 
+    async findOneQuery(query) {
+        const db = await this.db();
+        const res = await db.findOne(query);
+        return res;
+    }
+
     async create(data) {
         const db = await this.db();
 
