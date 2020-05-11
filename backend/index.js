@@ -1,29 +1,32 @@
-import { DB } from './app/config/database';
-import { ObjectId } from 'mongodb';
+// import config from './app/config';
+// import { CORS, ErrorHandler, AUTH } from './app/middlewares';
 
-class BaseModel {
-    constructor(collection) {
-        this.collection = collection
-    }
+// const express = require('express');
+// const bodyParser = require('body-parser');
 
-    async db() {
-        return (await DB.connect()).collection(this.collection);
-    }
-}
+// const port = config[config.env].port;
+// const app = express();
 
-async function main() {
-    try {
-        const model = new BaseModel('users');
+// app.use(bodyParser.json());
+// app.use(CORS);
+// app.use(AUTH);
 
-        console.log(await (await model.db()).findOne({ '_id': ObjectId('5eb85b1a8e6f9406e0b7f630') }))
 
-        DB.close()
+// app.post('/', (req, res) => {
+//     res.json({ data: 'Test' })
+// })
 
-        console.log(await (await model.db()).findOne({ '_id': ObjectId('5eb85b1a8e6f9406e0b7f630') }))
+// app.use(ErrorHandler);
 
-    } catch (error) {
-        console.log('ERROR')
-    }
-}
+// app.listen(port, () => console.log(`app is running on http://localhost:${port}`))
 
-main()
+
+// validate({
+//     email: '1234@test.com',
+//     password: '12345678',
+//     name: 'afasf'
+// }, {
+//     email: ['required', 'email'],
+//     name: ['required', 'string'],
+//     password: ['required', 'string', 'minLength:8']
+// })
