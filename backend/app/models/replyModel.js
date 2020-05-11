@@ -6,9 +6,8 @@ class Reply extends BaseModel {
         super('replies');
     }
 
-    async findWithUsers(messageId) {
-        const db = await ReplyModel.db();
-        const data = await db.aggregate([
+    async findWithUsers(messageId, limit) {
+        const pipeline = [
             {
                 $sort: { created_at: -1 }
             },
@@ -20,7 +19,7 @@ class Reply extends BaseModel {
                     from: 'users',
                     localField: 'user_id',
                     foreignField: '_id',
-                    as: 'users'
+                    as: 'user'
                 }
             },
             {
@@ -28,7 +27,7 @@ class Reply extends BaseModel {
                     text: 1,
                     created_at: 1,
                     updated_at: 1,
-                    users: { '$arrayElemAt': ['$users', 0] }
+                    user: { '$arrayElemAt': ['$user', 0] }
                 }
             },
             {
@@ -36,12 +35,18 @@ class Reply extends BaseModel {
                     text: 1,
                     created_at: 1,
                     updated_at: 1,
-                    'users._id': 1,
-                    'users.email': 1,
-                    'users.name': 1
+                    'user._id': 1,
+                    'user.email': 1,
+                    'user.name': 1
                 }
             }
-        ]).toArray();
+        ];
+        const db = await ReplyModel.db();
+        const data = await db.aggregate(limit ? [
+            ...pipeline,
+            { $limit: limit }] :
+            pipeline
+        ).toArray();
         return data;
     }
 }
