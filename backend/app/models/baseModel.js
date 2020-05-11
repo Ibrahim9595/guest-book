@@ -75,6 +75,23 @@ export class BaseModel {
         return res.value;
     }
 
+    async unset(id, data) {
+        const db = await this.db();
+
+        const res = await db.findOneAndUpdate({ _id: ObjectId(id) }, {
+            $unset: {
+                ...data,
+            },
+            $set: {
+                updated_at: Date.now(),
+            }
+        }, {
+            returnOriginal: false
+        });
+
+        return res.value;
+    }
+
     async delete(id) {
         const db = await this.db();
 
