@@ -1,10 +1,12 @@
+import { ObjectId } from "mongodb";
+
 const validationHelpers = {
     required: (val) => val !== null && val !== undefined,
     string: (val) => typeof (val) === 'string',
     number: (val) => typeof (val) === 'number',
     array: (val) => typeof (val) === 'object' && typeof (val.length) === 'number',
     object: (val) => typeof (val) === 'object' && typeof (val.length) === 'undefined',
-    objectId: (val) => ObjectId(val),
+    objectId: (val) => ObjectId.isValid(val),
     maxLength: (val, length) => val.length <= length,
     minLength: (val, length) => val.length >= length,
     above: (val, threshold) => typeof (val) === 'number' && val > threshold,
@@ -28,10 +30,16 @@ export const validate = (obj, rules) => {
         const elementValid = rules[valKey].every(rule => {
             // split for the key value rule [minLength, 10]
             const [ruleKey, ...rest] = rule.split(':');
-            return validationHelpers[ruleKey](obj[valKey], ...rest)
+            // Check if this rulekey belongs to a valid rule
+            const func = validationHelpers[ruleKey];
+            if (func) {
+                return func(obj[valKey], ...rest)
+            } else {
+                throw new Error('Invalid validation rule');
+            }
         })
 
-        if (!elementValid) inValidElements.push(valKey)
+        if (!elementValid) inValidElements.push(valKey);
     });
 
     return inValidElements;
