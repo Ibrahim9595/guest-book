@@ -14,4 +14,4 @@ async function main() {
 
 main().
 catch(err => console.log(err))
-.finally(_ => DB.close())
+.finally(async () => await DB.close())

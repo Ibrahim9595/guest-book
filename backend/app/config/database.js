@@ -3,6 +3,7 @@ import config from './';
 
 class DBWrapper {
     constructor() {
+        console.log('Constructed')
         this.__client = null
         this.db = null;
     }
@@ -19,12 +20,13 @@ class DBWrapper {
         return this.db;
     }
 
-    close() {
+    async close() {
+        console.log('closed')
         if (this.db && this.__client) {
-            this.__client.close();
+            await this.__client.close();
             this.__client = null;
             this.db = null;
-        } 
+        }
     }
 }
 
