@@ -5,7 +5,12 @@ import { ObjectId } from 'mongodb';
 class MessagesController extends BaseController {
 
     async read(req, res, next) {
-        // TODO
+        try {
+            const data = await MessageModel.findWithUserAndReplies();
+            this.success(res, 200, data);
+        } catch (error) {
+            next(error);
+        }
     }
 
     async create(req, res, next) {
