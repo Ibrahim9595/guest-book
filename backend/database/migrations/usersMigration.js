@@ -3,7 +3,7 @@
  * @param {Db} db 
  */
 async function migrate(db) {
-    await db.createCollection('users', {
+    const collection = await db.createCollection('users', {
         validator: {
             $jsonSchema: {
                 bsonType: "object",
@@ -29,7 +29,9 @@ async function migrate(db) {
                 }
             }
         }
-    })
+    });
+
+    await collection.createIndex({ 'email': 1 }, { unique: true })
 }
 
 module.exports = migrate;
