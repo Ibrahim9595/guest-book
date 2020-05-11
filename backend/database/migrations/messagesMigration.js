@@ -1,7 +1,8 @@
-import { DB } from "../../app/config/database";
-
-async function migrate() {
-    const db = await DB.connect();
+/**
+ * 
+ * @param {Db} db 
+ */
+async function migrate(db) {
     await db.createCollection('messages', {
         validator: {
             $jsonSchema: {

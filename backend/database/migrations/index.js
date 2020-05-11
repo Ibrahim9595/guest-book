@@ -1,4 +1,4 @@
-import { DB } from '../../app/config/database';
+import { DB } from '../../app/core/database';
 
 const migrations = [
     require('./usersMigration'),
@@ -7,8 +7,10 @@ const migrations = [
 ]
 
 async function main() {
+    const db = await DB.connect();
+
     for (let i = 0; i < migrations.length; i++) {
-        await migrations[i]();
+        await migrations[i](db);
     }
 }
 
