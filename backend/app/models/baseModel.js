@@ -60,10 +60,10 @@ export class BaseModel {
         return res.ops[0];
     }
 
-    async update(id, data) {
+    async update(id, data, extraFilter = {}) {
         const db = await this.db();
 
-        const res = await db.findOneAndUpdate({ _id: ObjectId(id) }, {
+        const res = await db.findOneAndUpdate({ _id: ObjectId(id), ...extraFilter }, {
             $set: {
                 ...data,
                 updated_at: Date.now(),
@@ -75,10 +75,10 @@ export class BaseModel {
         return res.value;
     }
 
-    async unset(id, data) {
+    async unset(id, data, extraFilter = {}) {
         const db = await this.db();
 
-        const res = await db.findOneAndUpdate({ _id: ObjectId(id) }, {
+        const res = await db.findOneAndUpdate({ _id: ObjectId(id), ...extraFilter }, {
             $unset: {
                 ...data,
             },
@@ -92,10 +92,10 @@ export class BaseModel {
         return res.value;
     }
 
-    async delete(id) {
+    async delete(id, extraFilter = {}) {
         const db = await this.db();
 
-        const res = await db.findOneAndDelete({ _id: ObjectId(id) });
+        const res = await db.findOneAndDelete({ _id: ObjectId(id), ...extraFilter });
 
         return res.value;
     }
