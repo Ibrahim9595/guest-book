@@ -5,8 +5,7 @@ export const AUTH = async (req, res, next) => {
     try {
         const { authorization } = req.headers;
         const token = authorization.split('Bearer ')[1];
-        const userDB = await UserModel.db();
-        const user = await userDB.findOne({ token })
+        const user = await UserModel.findOneQuery({ token })
 
         if (user) {
             req.user = user;
