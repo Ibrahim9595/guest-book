@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb';
-import config from './';
+import config from '../config';
 
 class DBWrapper {
     constructor() {
