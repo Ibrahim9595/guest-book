@@ -14,11 +14,15 @@ async function migrate() {
                     },
                     password: {
                         bsonType: 'string',
-                        // pattern: '^[\-_.0-9a-zA-Z]+@[0-9a-zA-Z]+\.[0-9a-zA-Z]+$',
                         description: "this field is required"
+                    },
+                    token: {
+                        bsonType: 'string',
+                        description: "this field is for login token"
                     },
                     eamil: {
                         bsonType: 'string',
+                        pattern: '^[\-_.0-9a-zA-Z]+@[0-9a-zA-Z]+\.[0-9a-zA-Z]+$',
                         description: "must be a valid email and is required"
                     }
                 }
