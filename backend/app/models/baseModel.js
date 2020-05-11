@@ -58,7 +58,10 @@ export class BaseModel {
         const db = await this.db();
 
         const res = await db.findOneAndUpdate({ _id: ObjectId(id) }, {
-            $set: data
+            $set: {
+                ...data,
+                updated_at: Date.now(),
+            }
         }, {
             returnOriginal: false
         });
