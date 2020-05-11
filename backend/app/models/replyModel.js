@@ -23,11 +23,9 @@ class Reply extends BaseModel {
                 }
             },
             {
-                $project: {
-                    text: 1,
-                    created_at: 1,
-                    updated_at: 1,
-                    user: { '$arrayElemAt': ['$user', 0] }
+                $unwind: {
+                    path: '$user',
+                    preserveNullAndEmptyArrays: true
                 }
             },
             {
