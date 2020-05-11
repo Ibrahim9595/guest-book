@@ -1,4 +1,4 @@
-import { DB } from '../config/database';
+import { DB } from '../core/database';
 /**
  * This class represent the centeral logic in all models
  */
