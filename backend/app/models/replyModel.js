@@ -6,7 +6,7 @@ class Reply extends BaseModel {
         super('replies');
     }
 
-    async findWithUsers(messageId, limit) {
+    async findWithUsers(messageId) {
         const pipeline = [
             {
                 $sort: { created_at: -1 }
@@ -39,12 +39,9 @@ class Reply extends BaseModel {
                 }
             }
         ];
+
         const db = await ReplyModel.db();
-        const data = await db.aggregate(limit ? [
-            ...pipeline,
-            { $limit: limit }] :
-            pipeline
-        ).toArray();
+        const data = await db.aggregate(pipeline).toArray();
         return data;
     }
 }
