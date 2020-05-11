@@ -5,3 +5,5 @@ class Message extends BaseModel {
         super('messages');
     }
 }
+
+export const MessageModel = new Message();

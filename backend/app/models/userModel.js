@@ -5,3 +5,6 @@ class User extends BaseModel {
         super('users');
     }
 }
+
+
+export const UserModel = new User();

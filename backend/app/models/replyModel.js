@@ -5,3 +5,5 @@ class Reply extends BaseModel {
         super('replies');
     }
 }
+
+export const ReplyModel = new Reply();
