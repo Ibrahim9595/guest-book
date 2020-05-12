@@ -1,6 +1,7 @@
 .message-writter-wrapper {
-    width: 100%;
-    height: 80px;
+    width: 99%;
+    margin:5px auto 1px auto;
+    height: 50px;
     border: 1px solid rgba(0, 0, 0, 0.33);
     display: flex;
     justify-content: center;
@@ -9,7 +10,7 @@
 .message-writter {
     width: 100%;
     border: none;
-    padding: 10px;
+    text-indent: 10px;
 }
 
 .message-writter-save, .message-writter-save:disabled {

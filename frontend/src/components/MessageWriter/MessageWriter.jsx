@@ -8,20 +8,20 @@ const saveMessage = (setMessage, onSave, message) => _ => {
     setMessage('');
 }
 
-export const MessageWriter = ({ initialMessage, onSave }) => {
+export const MessageWriter = ({ initialMessage, onSave, height, placeholder }) => {
     const [message, setMessage] = useState(initialMessage);
 
     return (
-        <div className='message-writter-wrapper'>
+        <div className='message-writter-wrapper' style={{ height: height ? `${height}px` : '50px' }}>
             <input className="message-writter" value={message}
                 onChange={handleChange(setMessage)}
-                placeholder="Write something nice..." />
+                placeholder={placeholder ? placeholder : 'Write something nice...'} />
 
             <button className="message-writter-save"
                 disabled={message.length === 0}
                 onClick={saveMessage(setMessage, onSave, message)}
             >
-                Save
+                Send
             </button>
         </div>
     );
