@@ -25,7 +25,7 @@ const validationHelpers = {
 export const validate = (obj, rules) => {
     const inValidElements = [];
     // Get all value keys [email, password] etc
-    Object.keys(rules).map(valKey => {
+    Object.keys(rules).forEach(valKey => {
         // use the value keys to get the actual rules [required, string] etc
         const elementValid = rules[valKey].every(rule => {
             // split for the key value rule [minLength, 10]
