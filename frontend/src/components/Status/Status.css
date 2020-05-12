@@ -1,0 +1,86 @@
+.loading {
+    background-color: rgba(0,0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.status-wrapper {
+    position: relative;
+    width: 97%;
+    margin: 2px auto 2px auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.status-wrapper::after {
+    content: "";
+    margin: 5px;
+}
+
+.status-wrapper .header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    overflow: auto;
+}
+
+.status-wrapper .header .left-section {
+    flex-direction: row;
+    display: flex;
+}
+
+.status-wrapper .header .left-section .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-inline-end: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.status-wrapper .header .left-section .user-info-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.status-wrapper .header .left-section .user-info-section .user-name {
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.status-wrapper .header .left-section .user-info-section .user-email {
+    font-weight: 200;
+    font-style: italic;
+}
+
+.status-wrapper .right-section {
+    margin-inline-end: 10px;
+}
+
+.status-wrapper .right-section .action-button {
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+    outline: none;
+    font-size: 1.5em;
+    opacity: 1;
+}
+
+.status-wrapper .right-section .action-button:active {
+    opacity: 0.7;
+}
+
+.status-wrapper .main-section {
+    text-align: center;
+    font-weight: 500;
+}
