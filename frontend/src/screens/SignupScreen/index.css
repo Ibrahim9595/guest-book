@@ -1,0 +1,18 @@
+.submit-button, .submit-button:disabled {
+    width: 100%;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+}
+
+.submit-button:disabled {
+    cursor: no-drop;
+    opacity: 0.5;
+}
+
+.submit-button {
+    cursor: pointer;
+}
