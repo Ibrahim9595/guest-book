@@ -4,13 +4,11 @@ import { validate } from '../../utils/validate';
 import { CustomForm } from '../../components/CustomForm/CustomForm';
 import { CustomInputField } from '../../components/CustomInputField/CustomInputField';
 
-const Signup = () => (
+const Login = () => (
     <CustomForm
         initialValues={{
-            name: '',
             email: '',
             password: '',
-            repeatPassword: '',
         }}
         onSubmit={({ values, setFormSubmitting }) => {
             setFormSubmitting(true);
@@ -21,10 +19,8 @@ const Signup = () => (
         }}
         validate={(values) =>
             validate(values, {
-                name: ['required'],
                 email: ['required', 'email'],
                 password: ['required', 'minLength:8'],
-                repeatPassword: ['required', 'equal:password']
             })
         }
     >
@@ -38,13 +34,6 @@ const Signup = () => (
             isValid,
         }) => (
                 <>
-                    <CustomInputField label='Full Name' erros={
-                        dirty.name ? errors.name : []
-                    }
-                        value={values.name}
-                        placeholder='Write your Full Name'
-                        name='name' onChange={handleChange} onBlur={handleBlur}
-                    />
                     <CustomInputField label='Email' erros={
                         dirty.email ? errors.email : []
                     }
@@ -59,17 +48,10 @@ const Signup = () => (
                         placeholder='Password at least 8 characters'
                         name='password' onChange={handleChange} onBlur={handleBlur}
                     />
-                    <CustomInputField label='Repeat password' type='password' erros={
-                        dirty.repeatPassword ? errors.repeatPassword : []
-                    }
-                        value={values.repeatPassword}
-                        placeholder='Repeat your password'
-                        name='repeatPassword' onChange={handleChange} onBlur={handleBlur}
-                    />
                     <button className='submit-button' type='submit' disabled={!isValid || submitting}>Submit</button>
                 </>
             )}
     </CustomForm>
 );
 
-export default Signup;
+export default Login;
