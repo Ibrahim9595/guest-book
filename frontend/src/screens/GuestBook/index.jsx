@@ -214,7 +214,7 @@ export default class GuestBook extends React.PureComponent {
                         }} />
                     </Modal>
                 }
-                <NavBar onLogout={this.context.logout} onWriteMessage={this.toggleModal} />
+                <NavBar onLogout={this.context.logout} onWriteMessage={this.toggleModal} userName={this.user ? this.user.name : ''} />
                 <div className='content-wrapper-scroll' >
                     <div className='content-wrapper'>
                         <MessageWriter initialMessage='' height='80' onSave={this.createMessage} />
