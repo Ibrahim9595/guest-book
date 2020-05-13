@@ -3,7 +3,7 @@
  * @param {Db} db 
  */
 async function migrate(db) {
-    await db.createCollection('replies', {
+    const collection = await db.createCollection('replies', {
         validator: {
             $jsonSchema: {
                 bsonType: 'object',
@@ -25,6 +25,9 @@ async function migrate(db) {
             }
         }
     })
+
+    await collection.createIndex({ user_id: 1 });
+    await collection.createIndex({ message_id: 1 });
 }
 
 module.exports = migrate;
