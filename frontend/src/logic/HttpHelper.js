@@ -14,7 +14,9 @@ class HttpHelper {
             }
         });
 
-        return response.json();
+        if (!response.ok) throw new Error(response.statusText);
+
+        return await response.json();
     }
 
     async get(endPoint, token = '') {
@@ -29,6 +31,11 @@ class HttpHelper {
 
     async put(endPoint, data, token = '') {
         const response = await this._requestBuilder(`${this.baseUrl}/${endPoint}`, 'PUT', token, data);
+        return response.data;
+    }
+
+    async delete(endPoint, token = '') {
+        const response = await this._requestBuilder(`${this.baseUrl}/${endPoint}`, 'DELETe', token);
         return response.data;
     }
 }
