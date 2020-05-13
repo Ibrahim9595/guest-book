@@ -16,3 +16,11 @@
 .submit-button {
     cursor: pointer;
 }
+
+.error-span {
+    color: red;
+}
+
+.success-span {
+    color: #4CAF50;
+}
