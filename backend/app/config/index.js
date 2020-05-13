@@ -1,5 +1,5 @@
 export default {
-    env: 'dev',
+    env: 'prod',
     dev: {
         secret: '',
         port: 3300,
