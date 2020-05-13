@@ -5,9 +5,23 @@ import { CustomForm } from '../../components/CustomForm/CustomForm';
 import { CustomInputField } from '../../components/CustomInputField/CustomInputField';
 import { useContext } from 'react';
 import { UserContext } from '../../logic/context/user-context';
+import { httpHelper } from '../../logic/HttpHelper';
 
 const Signup = () => {
     const userContext = useContext(UserContext);
+
+    const validateAsync = async (key, value) => {
+        if (key === 'email') {
+            try {
+                const response = await httpHelper.get(`email_exist/${value}`);
+                if (response) return { email: ['Email Already Exist'] };
+                else return {};
+            } catch (error) {
+                alert(error);
+            }
+        }
+        return {};
+    }
 
     return (
         <CustomForm
@@ -17,10 +31,12 @@ const Signup = () => {
                 password: '',
                 repeatPassword: '',
             }}
+
             onSubmit={({ values, reset }) => {
                 userContext.register(values.name, values.email, values.password);
                 reset();
             }}
+
             validate={(values) =>
                 validate(values, {
                     name: ['required'],
@@ -29,6 +45,8 @@ const Signup = () => {
                     repeatPassword: ['required', 'equal:password']
                 })
             }
+
+            validateAsync={validateAsync}
         >
             {({
                 handleChange,
