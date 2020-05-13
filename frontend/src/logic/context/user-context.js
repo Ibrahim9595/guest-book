@@ -6,7 +6,10 @@ export const UserContext = React.createContext({
         token: '',
     },
     loading: false,
-    error: null,
+    loginError: null,
+    signupError: null,
+    signupSuccess: null,
     login: (email, password) => { },
+    register: (name, email, password) => { },
     logout: () => { },
 });
