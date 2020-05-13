@@ -9,11 +9,29 @@ export const UserContextProvider = (props) => {
     const [signupError, setSignupError] = React.useState(null);
     const [sinupSuccess, setSignupSuccess] = React.useState(null);
 
+    React.useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            getUser(token);
+        }
+    }, []);
+
+    const getUser = async (token) => {
+        try {
+            setLoading(true);
+            const user = await httpHelper.get('me', token);
+            setUser(user);
+        } catch (error) {
+            setUser(null);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     const register = async (name, email, password) => {
         setLoading(true);
         try {
-            const user = await httpHelper.post('register', { name, email, password });
+            await httpHelper.post('register', { name, email, password });
             setSignupSuccess('New account is created you can use it to login');
         } catch (error) {
             setSignupError(error.message);
@@ -27,6 +45,7 @@ export const UserContextProvider = (props) => {
         try {
             const user = await httpHelper.post('login', { email, password });
             setUser(user);
+            localStorage.setItem('token', user.token);
         } catch (error) {
             setLoginError(error.message);
         } finally {
@@ -39,6 +58,7 @@ export const UserContextProvider = (props) => {
         try {
             await httpHelper.post('logout', {}, user.token);
             setUser(null);
+            localStorage.removeItem('token');
         } catch (error) {
             alert(error.message);
         } finally {
