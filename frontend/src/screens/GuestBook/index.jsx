@@ -3,17 +3,13 @@ import './index.css';
 import { Message } from '../../components/Message/Message';
 import { httpHelper } from '../../logic/HttpHelper';
 import { MessageWriter } from '../../components/MessageWriter/MessageWriter';
+import { UserContext } from '../../logic/context/user-context';
 
 export default class GuestBook extends React.PureComponent {
+    static contextType = UserContext;
 
     constructor(props) {
         super(props);
-        this.user = {
-            "_id": "5eb9b262b43f2445bc692053",
-            "name": "Ibrahim",
-            "email": "i2771995@gmail.com",
-            "token": "b72adf3c47a55a06ee9ac10e99f4c572f92901e84b7c05cb1736bbbddf68a6c0010697d017367f74e385872c0ea1bf43065b99241a33074836044790c71efa051589323633784"
-        };
 
         this.state = {
             loading: false,
@@ -22,7 +18,8 @@ export default class GuestBook extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.loadMessages()
+        this.user = this.context.user;
+        this.loadMessages();
     }
 
     loadMessages = () => {
