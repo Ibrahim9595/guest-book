@@ -14,7 +14,7 @@ class HttpHelper {
             }
         });
 
-        if (!response.ok) throw new Error(response.statusText);
+        if (!response.ok) throw new Error((await response.json()).error);
 
         return await response.json();
     }
