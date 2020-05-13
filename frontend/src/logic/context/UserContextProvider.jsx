@@ -10,7 +10,7 @@ export const UserContextProvider = (props) => {
     const [sinupSuccess, setSignupSuccess] = React.useState(null);
 
     React.useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('1589392512240token1589392512240');
         if (token) {
             getUser(token);
         }
@@ -45,7 +45,7 @@ export const UserContextProvider = (props) => {
         try {
             const user = await httpHelper.post('login', { email, password });
             setUser(user);
-            localStorage.setItem('token', user.token);
+            localStorage.setItem('1589392512240token1589392512240', user.token);
         } catch (error) {
             setLoginError(error.message);
         } finally {
@@ -58,7 +58,7 @@ export const UserContextProvider = (props) => {
         try {
             await httpHelper.post('logout', {}, user.token);
             setUser(null);
-            localStorage.removeItem('token');
+            localStorage.removeItem('1589392512240token1589392512240');
         } catch (error) {
             alert(error.message);
         } finally {
