@@ -20,6 +20,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+#root {
+  overflow: hidden;
+}
+
 /*scroll bar*/
 
 ::-webkit-scrollbar {
