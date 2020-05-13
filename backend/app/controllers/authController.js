@@ -27,7 +27,7 @@ class AuthController extends BaseController {
         try {
             const { email, password } = req.body;
             const user = await UserModel.findOneQuery({ email });
-            if (user.password === this.__hash(password)) {
+            if (user && user.password === this.__hash(password)) {
                 // Adding Date.now() because 2 hashse may have the same value
                 // It is rare but birthday attack is there for areason
                 const token = this.__hash(user.email + user.password) + Date.now();
@@ -39,7 +39,7 @@ class AuthController extends BaseController {
                     token
                 });
             } else {
-                this.failed(res, 403, 'WRONG_EMAIL_OR_PASSWORD');
+                this.failed(res, 401, 'WRONG_EMAIL_OR_PASSWORD');
             }
         } catch (error) {
             next(error);
