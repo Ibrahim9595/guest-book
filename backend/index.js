@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 if (config.env === 'dev') {
     app.use(CORS);
 } else if (config.env === 'prod') {
-    app.use(express.static('build'));
+    app.use(express.static('public'));
 }
 
 
