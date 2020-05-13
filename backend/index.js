@@ -14,6 +14,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(CORS);
 
+app.use(express.static('build'));
+
 // Auth Routes
 app.get('/me', AUTH, authController.getUSer.bind(authController));
 app.get('/email_exist/:email', authController.isMailExist.bind(authController));
