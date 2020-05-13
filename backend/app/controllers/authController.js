@@ -8,6 +8,14 @@ class AuthController extends BaseController {
         return createHash('sha512').update(str).digest('hex');
     }
 
+    async getUSer(req, res, next) {
+        try {
+            this.success(res, 200, req.user);
+        } catch (error) {
+            next(error);
+        }
+    }
+
     async register(req, res, next) {
         try {
             const { name, email, password } = req.body;
@@ -49,7 +57,7 @@ class AuthController extends BaseController {
     async logout(req, res, next) {
         try {
             const user = req.user;
-            await UserModel.unset(user._id, { token: null});
+            await UserModel.unset(user._id, { token: null });
             this.success(res, 200, {});
         } catch (error) {
             next(error);
