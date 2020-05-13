@@ -16,3 +16,7 @@
 .submit-button {
     cursor: pointer;
 }
+
+.error-span {
+    color: red;
+}
