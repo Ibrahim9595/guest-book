@@ -38,12 +38,17 @@ export class CustomForm extends React.PureComponent {
         this.setState({ submitting: val })
     }
 
+    reset = () => {
+        this.setState({ values: this.props.initialValues });
+    }
+
     submit = (event) => {
         event.preventDefault()
         if (typeof (this.props.onSubmit) === 'function' && this.state.isValid) {
             this.props.onSubmit({
                 setFormSubmitting: this.setFormSubmitting,
-                values: this.state.values
+                values: this.state.values,
+                reset: this.reset
             })
         }
     }
