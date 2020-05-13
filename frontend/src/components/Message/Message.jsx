@@ -6,7 +6,7 @@ import { Loading } from '../Loading/Loading';
 
 export const Message = ({
     messageWithReplies, onMessageUpdate,
-    onMessageDelete, onReplyUpdate,
+    onMessageDelete, onReplyUpdate, loadingReplies,
     onReplyCreate, onReplyDelete, onLoadReply,
     loading, showControls, showReplyControls
 }) => {
@@ -21,23 +21,28 @@ export const Message = ({
             }
             <div className="message">
                 <Status
-                    status={message} onDelete={onMessageDelete} onUpdate={onMessageUpdate}
+                    status={message} onDelete={onMessageDelete} onUpdate={(text) => onMessageUpdate(text, message)}
                     showControls={showControls}
                 />
             </div>
             <div className="message-writter">
-                <MessageWriter placeholder='Reply to message...' initialMessage='' onSave={onReplyCreate} />
+                <MessageWriter placeholder='Reply to message...' initialMessage=''
+                    onSave={(reply) => onReplyCreate(message._id, reply)} />
             </div>
             <div className="replies">
                 {replies.map(reply => (
                     <Status
+                        loading={reply.updating}
                         key={reply._id}
-                        status={reply} onDelete={onReplyUpdate} onUpdate={onReplyDelete}
+                        status={reply} onDelete={onReplyDelete} onUpdate={onReplyUpdate}
                         showControls={showReplyControls(reply)}
                     />
                 ))}
                 <div className="load-more">
-                    <button onClick={() => onLoadReply(message._id)}>load replies</button>
+                    {loadingReplies ?
+                        <button disabled>Loading ...</button> :
+                        <button onClick={() => onLoadReply(message._id)}>load replies</button>
+                    }
                 </div>
             </div>
         </div>
