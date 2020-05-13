@@ -2,7 +2,7 @@ import React from 'react';
 import './MessageWriter.css';
 import { useState } from 'react';
 
-const handleChange = (setMessage) => (e) => setMessage(e.target.value);
+const handleChange = (setMessage) => (e) => e.target.value.length <= 150 ? setMessage(e.target.value) : null;
 const saveMessage = (setMessage, onSave, message) => _ => {
     onSave(message);
     setMessage('');
@@ -21,7 +21,7 @@ export const MessageWriter = ({ initialMessage, onSave, height, placeholder }) =
                 disabled={message.length === 0}
                 onClick={saveMessage(setMessage, onSave, message)}
             >
-                Send
+                Send <span>{message.length}/150</span>
             </button>
         </div>
     );
