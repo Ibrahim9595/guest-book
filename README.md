@@ -19,14 +19,14 @@ I have choosed this approach to be able to make the whole code in one github rep
 -- The backend app is architectured using MVC architecture pattern
 **The app has the following folder structure**
 --- app
-&nbsp;&nbsp;&nbsp;|---config
-&nbsp;&nbsp;&nbsp;|---controllers
-&nbsp;&nbsp;&nbsp;|---core
-&nbsp;&nbsp;&nbsp;|---middleware
-&nbsp;&nbsp;&nbsp;|---models
-&nbsp;&nbsp;&nbsp;|---validation
+|---config
+|---controllers
+|---core
+|---middleware
+|---models
+|---validation
 ---database
-&nbsp;&nbsp;&nbsp;|---migrations
+|---migrations
 ---public
 
 - Lets start with the **config** directory it contains all files that has configration constants like that in index contains the database, port and environment.
@@ -47,10 +47,10 @@ I have choosed this approach to be able to make the whole code in one github rep
 # Frontend Architucture
 **The front end app has a simple architucture**
 --- src
-&nbsp;&nbsp;&nbsp;|---components
-&nbsp;&nbsp;&nbsp;|---logic
-&nbsp;&nbsp;&nbsp;|---screens
-&nbsp;&nbsp;&nbsp;|---utils
+|---components
+|---logic
+|---screens
+|---utils
 ---public
 - The **public** directory contains static files.
 - The **src** directory contains the actual code to the app
