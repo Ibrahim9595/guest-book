@@ -4,6 +4,8 @@ import { Message } from '../../components/Message/Message';
 import { httpHelper } from '../../logic/HttpHelper';
 import { MessageWriter } from '../../components/MessageWriter/MessageWriter';
 import { UserContext } from '../../logic/context/user-context';
+import NavBar from '../../components/NavBar/NavBar';
+import { Modal } from '../../components/Modal/Modal';
 
 export default class GuestBook extends React.PureComponent {
     static contextType = UserContext;
@@ -13,6 +15,7 @@ export default class GuestBook extends React.PureComponent {
 
         this.state = {
             loading: false,
+            showModal: false,
             messages: [],
         }
     }
@@ -198,25 +201,42 @@ export default class GuestBook extends React.PureComponent {
             });
     }
 
+    toggleModal = () => this.setState({ showModal: !this.state.showModal });
+
     render() {
-        return (<div>
-            <MessageWriter initialMessage='' height='80' onSave={this.createMessage} />
-            {this.state.messages.map(message => (
-                <Message
-                    loading={message.updating}
-                    loadingReplies={message.loadingReplies}
-                    showControls={message.user_id === this.user._id}
-                    key={message._id}
-                    messageWithReplies={message}
-                    onLoadReply={this.loadReplies}
-                    onMessageDelete={this.deleteMessage}
-                    onMessageUpdate={this.updateMessage}
-                    onReplyCreate={this.createRely}
-                    onReplyDelete={(reply) => this.deleteReply(message, reply)}
-                    onReplyUpdate={(text, reply) => this.updateReply(message, text, reply)}
-                    showReplyControls={(reply) => reply.user_id === this.user._id}
-                />
-            ))}
-        </div>);
+        return (
+            <>
+                {this.state.showModal &&
+                    <Modal onClose={this.toggleModal}>
+                        <MessageWriter initialMessage='' height='80' onSave={(message) => {
+                            this.createMessage(message);
+                            this.toggleModal();
+                        }} />
+                    </Modal>
+                }
+                <NavBar onLogout={this.context.logout} onWriteMessage={this.toggleModal} />
+                <div className='content-wrapper-scroll' >
+                    <div className='content-wrapper'>
+                        <MessageWriter initialMessage='' height='80' onSave={this.createMessage} />
+                        {this.state.messages.map(message => (
+                            <Message
+                                loading={message.updating}
+                                loadingReplies={message.loadingReplies}
+                                showControls={message.user_id === this.user._id}
+                                key={message._id}
+                                messageWithReplies={message}
+                                onLoadReply={this.loadReplies}
+                                onMessageDelete={this.deleteMessage}
+                                onMessageUpdate={this.updateMessage}
+                                onReplyCreate={this.createRely}
+                                onReplyDelete={(reply) => this.deleteReply(message, reply)}
+                                onReplyUpdate={(text, reply) => this.updateReply(message, text, reply)}
+                                showReplyControls={(reply) => reply.user_id === this.user._id}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </>
+        );
     }
 }
