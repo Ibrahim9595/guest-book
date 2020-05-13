@@ -1,0 +1,58 @@
+.write-message-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.write-message-modal .content-wrapper {
+    width: 80%;
+    height: 300px;
+    background-color: white;
+    animation-name: modal;
+    animation-timing-function: ease-in;
+    animation-duration: 0.25s;
+    border-radius: 5px;
+}
+
+@keyframes modal {
+    from {
+        transform: scale(0, 0);
+    }
+    to {
+        transform: scale(1, 1);
+    }
+}
+
+.write-message-modal .content-wrapper .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+}
+
+.write-message-modal .content-wrapper .header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 2px;
+}
+
+.action-button {
+    background-color: inherit;
+    border: none;
+    color: red;
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+}
+
+.action-button:active {
+    opacity: 0.7;
+}
