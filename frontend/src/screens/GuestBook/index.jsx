@@ -1,6 +1,8 @@
 import React from 'react';
 import './index.css';
 import { Message } from '../../components/Message/Message';
+import { httpHelper } from '../../logic/HttpHelper';
+import { MessageWriter } from '../../components/MessageWriter/MessageWriter';
 
 export default class GuestBook extends React.PureComponent {
 
@@ -24,158 +26,95 @@ export default class GuestBook extends React.PureComponent {
     }
 
     loadMessages = () => {
-        this.setState({
-            messages: [
-                {
-                    "_id": "5eb9bdc970328521c800605f",
-                    "text": "Test Message Route 2",
-                    "user_id": "5eb9b262b43f2445bc692053",
-                    "created_at": 1589231049074,
-                    "updated_at": 1589231049074,
-                    "user": {
-                        "_id": "5eb9b262b43f2445bc692053",
-                        "name": "Ibrahim",
-                        "email": "i2771995@gmail.com"
-                    },
-                    "replies": []
-                },
-                {
-                    "_id": "5eb9bdad70328521c800605e",
-                    "text": "Test Message Route 1",
-                    "user_id": "5eb9b262b43f2445bc692053",
-                    "created_at": 1589231021461,
-                    "updated_at": 1589231021461,
-                    "user": {
-                        "_id": "5eb9b262b43f2445bc692053",
-                        "name": "Ibrahim",
-                        "email": "i2771995@gmail.com"
-                    },
-                    "replies": []
-                },
-                {
-                    "_id": "5eb9bd6170328521c800605d",
-                    "text": "Test Message Route",
-                    "user_id": "5eb9b262b43f2445bc692053",
-                    "created_at": 1589230945689,
-                    "updated_at": 1589230945689,
-                    "user": {
-                        "_id": "5eb9b262b43f2445bc692053",
-                        "name": "Ibrahim",
-                        "email": "i2771995@gmail.com"
-                    },
-                    "replies": []
-                },
-                {
-                    "_id": "5eb98bfe0c6b004ad4f3ce61",
-                    "text": "Test Message 1",
-                    "user_id": "5eb9b262b43f2445bc692053",
-                    "created_at": 1589218302588,
-                    "updated_at": 1589218302588,
-                    "user": {
-                        "_id": "5eb9b262b43f2445bc692053",
-                        "name": "Ibrahim",
-                        "email": "i2771995@gmail.com"
-                    },
-                    "replies": [
-                        {
-                            "_id": "5eb9c154f9959119f067c35d",
-                            "text": "Test Reply Route",
-                            "user_id": "5eb9b262b43f2445bc692053",
-                            "created_at": 1589231956768,
-                            "updated_at": 1589231956768,
-                            "user": {
-                                "_id": "5eb9b262b43f2445bc692053",
-                                "name": "Ibrahim",
-                                "email": "i2771995@gmail.com"
-                            }
-                        },
-                        {
-                            "_id": "5eb9c169f9959119f067c35e",
-                            "text": "Test Reply Route 1",
-                            "user_id": "5eb9bf485de79c1d9ce53e67",
-                            "created_at": 1589231977605,
-                            "updated_at": 1589231977605,
-                            "user": {
-                                "_id": "5eb9bf485de79c1d9ce53e67",
-                                "name": "Ibrahim",
-                                "email": "i2771995@gmail.com1"
-                            }
-                        }
-                    ]
-                }
-            ]
-        })
+        this.setState({ loading: true });
+        httpHelper.get('message', this.user.token)
+            .then(messages => this.setState({ messages, loading: false }))
+            .catch(error => {
+                alert(error);
+                this.setState({ loading: false })
+            })
     }
 
     createMessage = (message) => {
-        console.log(message)
+        const oldState = { ...this.state };
+        this.setState({
+            messages: [{
+                _id: Date.now(),
+                text: message,
+                user: this.user,
+                user_id: this.user._id,
+                replies: [],
+                updating: true
+            }, ...this.state.messages]
+        })
+
+        httpHelper.post('message', { text: message }, this.user.token)
+            .then(newMessage => {
+                this.setState({ messages: [newMessage, ...oldState.messages] })
+            }).catch(err => {
+                alert(err);
+                this.setState(oldState);
+            })
     }
 
     loadReplies = (messageId) => {
+        const oldState = { ...this.state };
         const newMessageIndex = this.state.messages.findIndex(el => el._id === messageId);
         const newMessages = [...this.state.messages];
         newMessages[newMessageIndex] = { ...newMessages[newMessageIndex], loadingReplies: true };
         this.setState({ messages: newMessages });
-        setTimeout(() => {
-            newMessages[newMessageIndex] = {
-                ...newMessages[newMessageIndex], loadingReplies: false, replies: [
-                    {
-                        "_id": "5eb9c154f9959119f067c35d",
-                        "text": "Test Reply Route",
-                        "user_id": "5eb9b262b43f2445bc692053",
-                        "created_at": 1589231956768,
-                        "updated_at": 1589231956768,
-                        "user": {
-                            "_id": "5eb9b262b43f2445bc692053",
-                            "name": "Ibrahim",
-                            "email": "i2771995@gmail.com"
-                        }
-                    },
-                    {
-                        "_id": "5eb9c169f9959119f067c35e",
-                        "text": "Test Reply Route 1",
-                        "user_id": "5eb9bf485de79c1d9ce53e67",
-                        "created_at": 1589231977605,
-                        "updated_at": 1589231977605,
-                        "user": {
-                            "_id": "5eb9bf485de79c1d9ce53e67",
-                            "name": "Ibrahim",
-                            "email": "i2771995@gmail.com1"
-                        }
-                    }
-                ]
-            }
-            this.setState({
-                messages: [...newMessages]
-            });
-        }, 1000)
+
+        httpHelper.get(`message/${messageId}/replies`, this.user.token)
+            .then(newReplies => {
+                newMessages[newMessageIndex] = {
+                    ...newMessages[newMessageIndex], loadingReplies: false, replies: newReplies
+                }
+                this.setState({
+                    messages: [...newMessages]
+                });
+            }).catch(err => {
+                alert(err);
+                this.setState(oldState);
+            })
     }
 
     updateMessage = (text, message) => {
+        const oldState = { ...this.state };
         const newMessageIndex = this.state.messages.findIndex(el => el._id === message._id);
         const newMessages = [...this.state.messages];
         newMessages[newMessageIndex] = { ...newMessages[newMessageIndex], updating: true };
         this.setState({ messages: newMessages });
 
-        setTimeout(() => {
-            newMessages[newMessageIndex] = { ...newMessages[newMessageIndex], updating: false, text };
-            this.setState({ messages: [...newMessages] })
-        }, 1000)
+        httpHelper.put(`message/${message._id}`, { text }, this.user.token)
+            .then(message => {
+                newMessages[newMessageIndex] = { ...newMessages[newMessageIndex], ...message, updating: false };
+                this.setState({ messages: [...newMessages] })
+            }).catch(error => {
+                alert(error)
+                this.setState(oldState);
+            })
     }
 
     deleteMessage = (message) => {
+        if (!window.confirm('Are you sure you want to delete this message?')) return;
+        const oldState = { ...this.state };
         const newMessageIndex = this.state.messages.findIndex(el => el._id === message._id);
         const newMessages = [...this.state.messages];
         newMessages[newMessageIndex] = { ...newMessages[newMessageIndex], updating: true };
         this.setState({ messages: newMessages });
 
-        setTimeout(() => {
-            newMessages.splice(newMessageIndex, 1);
-            this.setState({ messages: [...newMessages] })
-        }, 1000)
+        httpHelper.delete(`message/${message._id}`, this.user.token)
+            .then(_ => {
+                newMessages.splice(newMessageIndex, 1);
+                this.setState({ messages: [...newMessages] })
+            }).catch(error => {
+                alert(error)
+                this.setState(oldState);
+            })
     }
 
     updateReply = (message, newText, reply) => {
+        const oldState = { ...this.state };
         const newMessageIndex = this.state.messages.findIndex(el => el._id === message._id);
         const newMessages = [...this.state.messages];
         const newReplies = [...newMessages[newMessageIndex].replies];
@@ -188,19 +127,25 @@ export default class GuestBook extends React.PureComponent {
 
         this.setState({ messages: [...newMessages] });
 
-        setTimeout(() => {
-            newReplies[newReplyIndex] = { ...newReplies[newReplyIndex], updating: false };
+        httpHelper.put(`replies/${reply._id}`, { text: newText }, this.user.token)
+            .then(newReply => {
+                newReplies[newReplyIndex] = { ...newReplies[newReplyIndex], ...newReply, updating: false };
 
-            newMessages[newMessageIndex] = {
-                ...newMessages[newMessageIndex], replies: [...newReplies]
-            };
+                newMessages[newMessageIndex] = {
+                    ...newMessages[newMessageIndex], replies: [...newReplies]
+                };
 
-            this.setState({ messages: [...newMessages] });
-        }, 1000)
-
+                this.setState({ messages: [...newMessages] });
+            }).catch(err => {
+                alert(err);
+                this.setState(oldState);
+            });
     }
 
     deleteReply = (message, reply) => {
+        if (!window.confirm('Are you sure you want to delete this reply?')) return;
+
+        const oldState = { ...this.state };
         const newMessageIndex = this.state.messages.findIndex(el => el._id === message._id);
         const newMessages = [...this.state.messages];
         const newReplies = [...newMessages[newMessageIndex].replies];
@@ -213,18 +158,23 @@ export default class GuestBook extends React.PureComponent {
 
         this.setState({ messages: [...newMessages] });
 
-        setTimeout(() => {
-            newReplies.splice(newReplyIndex, 1);
+        httpHelper.delete(`replies/${reply._id}`, this.user.token)
+            .then(_ => {
+                newReplies.splice(newReplyIndex, 1);
 
-            newMessages[newMessageIndex] = {
-                ...newMessages[newMessageIndex], replies: [...newReplies]
-            };
+                newMessages[newMessageIndex] = {
+                    ...newMessages[newMessageIndex], replies: [...newReplies]
+                };
 
-            this.setState({ messages: [...newMessages] });
-        }, 1000)
+                this.setState({ messages: [...newMessages] });
+            }).catch(err => {
+                alert(err);
+                this.setState(oldState);
+            });
     }
 
     createRely = (messageId, reply) => {
+        const oldState = { ...this.state };
         const newMessageIndex = this.state.messages.findIndex(el => el._id === messageId);
         const newMessages = [...this.state.messages];
         const replies = [...newMessages[newMessageIndex].replies];
@@ -236,30 +186,24 @@ export default class GuestBook extends React.PureComponent {
                 updating: true
             }]
         };
+
         this.setState({ messages: [...newMessages] });
 
-        setTimeout(() => {
-            console.log('test');
-            newMessages[newMessageIndex] = {
-                ...newMessages[newMessageIndex], replies: [...replies, {
-                    "_id": "5eb9c154f9959119f067c35d",
-                    "text": reply,
-                    "user_id": "5eb9b262b43f2445bc692053",
-                    "created_at": 1589231956768,
-                    "updated_at": 1589231956768,
-                    "user": {
-                        "_id": "5eb9b262b43f2445bc692053",
-                        "name": "Ibrahim",
-                        "email": "i2771995@gmail.com"
-                    }
-                }]
-            };
-            this.setState({ messages: [...newMessages] })
-        }, 1000)
+        httpHelper.post(`message/${messageId}/replies`, { text: reply }, this.user.token)
+            .then(newReply => {
+                newMessages[newMessageIndex] = {
+                    ...newMessages[newMessageIndex], replies: [{ ...newReply }, ...replies]
+                };
+                this.setState({ messages: [...newMessages] })
+            }).catch(err => {
+                alert(err);
+                this.setState(oldState);
+            });
     }
 
     render() {
         return (<div>
+            <MessageWriter initialMessage='' height='80' onSave={this.createMessage} />
             {this.state.messages.map(message => (
                 <Message
                     loading={message.updating}
