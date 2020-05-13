@@ -179,12 +179,12 @@ export default class GuestBook extends React.PureComponent {
         const newMessages = [...this.state.messages];
         const replies = [...newMessages[newMessageIndex].replies];
         newMessages[newMessageIndex] = {
-            ...newMessages[newMessageIndex], replies: [...replies, {
+            ...newMessages[newMessageIndex], replies: [{
                 _id: Date.now(),
                 text: reply,
                 user: this.user,
                 updating: true
-            }]
+            }, ...replies]
         };
 
         this.setState({ messages: [...newMessages] });
