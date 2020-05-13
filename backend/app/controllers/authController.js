@@ -63,6 +63,20 @@ class AuthController extends BaseController {
             next(error);
         }
     }
+
+    async isMailExist(req, res, next) {
+        try {
+            const { email } = req.params;
+            const user = await UserModel.findOneQuery({ email });
+            if (user) {
+                this.success(res, 200, true);
+            } else {
+                this.success(res, 200, false);
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 export const authController = new AuthController();

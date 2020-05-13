@@ -16,6 +16,7 @@ app.use(CORS);
 
 // Auth Routes
 app.get('/me', AUTH, authController.getUSer.bind(authController));
+app.get('/email_exist/:email', authController.isMailExist.bind(authController));
 app.post('/register', validator(registerRules), authController.register.bind(authController));
 app.post('/login', validator(loginRules), authController.login.bind(authController));
 app.post('/logout', AUTH, authController.logout.bind(authController));
