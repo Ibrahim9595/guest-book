@@ -1,25 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { UserContext } from './logic/context/user-context';
+import Authntication from './screens/Authentication';
+import GuestBook from './screens/GuestBook';
+
 
 function App() {
+  const userContext = React.useContext(UserContext);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {
+        userContext.user ?
+          <GuestBook />
+          : <Authntication />
+      }
+    </>
   );
 }
 
