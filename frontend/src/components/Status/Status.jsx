@@ -6,7 +6,7 @@ import { Loading } from '../Loading/Loading';
 
 export const Status = ({ status, onDelete, onUpdate, loading, showControls }) => {
     const [isEditing, setEditing] = React.useState(false)
-    const { text, user, updated_at } = status;
+    const { text, user } = status;
     
     return isEditing ?
         <MessageWriter onSave={(message) => {
