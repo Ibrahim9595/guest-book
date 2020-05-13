@@ -3,11 +3,12 @@
 2. `cd guest-book`
 3. `cd backend`
 4. `npm install`
-5. recomended `npm run migrate`
-6. `npm start`
-7. follow the link in the terminal
+5. Make sure mongod is running or change the config from backend/config/index.js
+6. recomended `npm run migrate`
+7. `npm start`
+8. follow the link in the terminal
 ## Notes:
-- you can change the database config and port config from ./config/index.js
+- you can change the database config and port config from ./backend/config/index.js
 - The frontend folder contains the source code to the SPA the built version is in ./backend/public
 
 # Folder Structure
