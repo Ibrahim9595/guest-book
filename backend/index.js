@@ -12,9 +12,13 @@ const port = config[config.env].port;
 const app = express();
 
 app.use(bodyParser.json());
-app.use(CORS);
 
-app.use(express.static('build'));
+if (config.env === 'dev') {
+    app.use(CORS);
+} else if (config.env === 'prod') {
+    app.use(express.static('build'));
+}
+
 
 // Auth Routes
 app.get('/me', AUTH, authController.getUSer.bind(authController));
