@@ -23,7 +23,7 @@ class MessagesController extends BaseController {
                 user_id: ObjectId(user._id)
             });
 
-            this.success(res, 201, { ...message, user });
+            this.success(res, 201, { ...message, user, replies: [] });
         } catch (error) {
             next(error);
         }
