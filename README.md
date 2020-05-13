@@ -1,5 +1,5 @@
 # Using the app:
-1. clone the repo
+1. clone the repo `git clone https://github.com/Ibrahim9595/guest-book.git`
 2. `cd backend`
 3. `npm install`
 4. recomended `npm run migrate`
