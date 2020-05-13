@@ -1,10 +1,11 @@
 # Using the app:
 1. clone the repo `git clone https://github.com/Ibrahim9595/guest-book.git`
-2. `cd backend`
-3. `npm install`
-4. recomended `npm run migrate`
-4. `npm start`
-5. follow the link in the terminal
+2. `cd guest-book`
+3. `cd backend`
+4. `npm install`
+5. recomended `npm run migrate`
+6. `npm start`
+7. follow the link in the terminal
 ## Notes:
 - you can change the database config and port config from ./config/index.js
 - The frontend folder contains the source code to the SPA the built version is in ./backend/public
