@@ -18,16 +18,16 @@ I have choosed this approach to be able to make the whole code in one github rep
 # Backend Architucture
 -- The backend app is architectured using MVC architecture pattern
 **The app has the following folder structure**
---- app
-|---config
-|---controllers
-|---core
-|---middleware
-|---models
-|---validation
----database
-|---migrations
----public
+--- app  
+|---config  
+|---controllers  
+|---core  
+|---middleware  
+|---models  
+|---validation  
+---database  
+|---migrations  
+---public  
 
 - Lets start with the **config** directory it contains all files that has configration constants like that in index contains the database, port and environment.
 - Second folder is **core** in core the files that has useful functionality to the whole app like the **validation.js** where the validation code occurs and **database.js** where the connction with database is maintained inside the DB instance
@@ -46,12 +46,12 @@ I have choosed this approach to be able to make the whole code in one github rep
 
 # Frontend Architucture
 **The front end app has a simple architucture**
---- src
-|---components
-|---logic
-|---screens
-|---utils
----public
+--- src  
+|---components   
+|---logic  
+|---screens  
+|---utils  
+---public  
 - The **public** directory contains static files.
 - The **src** directory contains the actual code to the app
 - **components** a list of reusable components to be used in the whole app they are dump components they don't interact with api calls or shared state instead they communicate throug **props**.
