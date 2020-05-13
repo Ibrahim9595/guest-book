@@ -4,6 +4,7 @@ import { validate } from '../../utils/validate';
 import { CustomForm } from '../../components/CustomForm/CustomForm';
 import { CustomInputField } from '../../components/CustomInputField/CustomInputField';
 import { UserContext } from '../../logic/context/user-context';
+import { ERROR_MESSAGES } from '../../errorMessages';
 
 const Login = () => {
     const userContext = React.useContext(UserContext);
@@ -21,7 +22,7 @@ const Login = () => {
                 validate(values, {
                     email: ['required', 'email'],
                     password: ['required', 'minLength:8'],
-                })
+                }, ERROR_MESSAGES)
             }
         >
             {({
@@ -33,7 +34,7 @@ const Login = () => {
                 isValid,
             }) => (
                     <>
-                        {userContext.error && <span className="error-span">Wrong user name or password</span>}
+                        {userContext.loginError && <span className="error-span">Wrong user name or password</span>}
                         <CustomInputField label='Email' erros={
                             dirty.email ? errors.email : []
                         }

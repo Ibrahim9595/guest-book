@@ -6,6 +6,7 @@ import { CustomInputField } from '../../components/CustomInputField/CustomInputF
 import { useContext } from 'react';
 import { UserContext } from '../../logic/context/user-context';
 import { httpHelper } from '../../logic/HttpHelper';
+import { ERROR_MESSAGES } from '../../errorMessages';
 
 const Signup = () => {
     const userContext = useContext(UserContext);
@@ -43,7 +44,7 @@ const Signup = () => {
                     email: ['required', 'email'],
                     password: ['required', 'minLength:8'],
                     repeatPassword: ['required', 'equal:password']
-                })
+                }, ERROR_MESSAGES)
             }
 
             validateAsync={validateAsync}
