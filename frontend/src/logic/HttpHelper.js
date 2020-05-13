@@ -40,4 +40,6 @@ class HttpHelper {
     }
 }
 
+
+// TODO make this change accourding to the env
 export const httpHelper = new HttpHelper('http://localhost:3300');
