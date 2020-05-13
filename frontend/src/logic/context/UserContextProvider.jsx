@@ -46,9 +46,12 @@ export const UserContextProvider = (props) => {
             const user = await httpHelper.post('login', { email, password });
             setUser(user);
             localStorage.setItem('1589392512240token1589392512240', user.token);
+            setLoginError(null);
         } catch (error) {
             setLoginError(error.message);
         } finally {
+            setSignupSuccess(null);
+            setSignupError(null);
             setLoading(false);
         }
     }
