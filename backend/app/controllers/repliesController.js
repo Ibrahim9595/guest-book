@@ -26,7 +26,7 @@ class RepliesController extends BaseController {
                 message_id: ObjectId(message_id),
             });
 
-            this.success(res, 201, message);
+            this.success(res, 201, { ...message, user });
         } catch (error) {
             next(error);
         }
