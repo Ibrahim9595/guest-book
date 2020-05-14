@@ -11,6 +11,16 @@
 - you can change the database config and port config from ./backend/config/index.js
 - The frontend folder contains the source code to the SPA the built version is in ./backend/public
 
+# Database Design
+- The app database is simple.
+- It has 3 entities 
+    1. Users
+    2. Messages
+    3. Replies
+- A User has many messages and many replies
+- A Message has many replies
+- I decided to seperate the entities rather than combining them together for ex. Replies could have been an array inside messages but, this way would have made the inserting, deleting and updating more complex as I would have to select the message and search for the reply inside of its replies array and update, delete it or push a new reply then write it back to the database which is not so clean I would have made it nested with messages if the insertion, deletion and update was not so frequent another problem is the nested user saving a refrence to user table would have made the retriving of the replies complicated, so I decided to separate them and benefite from **$lookup** migration.
+
 # Folder Structure
 ## The app is splitted into 2 main dirictories
 1. backend where all server files are located
