@@ -73,8 +73,6 @@ I have choosed this approach to be able to make the whole code in one github rep
 the ability to implement a more robust push based architucture
 - **logic** this dirctory contains business logic for the app such as httpHelper that helps the app to communicate with the http server and the **UserContextProvider**
  that provide a shared AuthUserState to the whole app in **I have tried to implement a push based pattern in the login & signup where the screens just passively react to the authState changes for example in login screen I don't await the login method call the ui has a span which whatches the login error to react or success to move the user to GuestBookScreen**
-### Things I wish I had the time to do
-- Refactor the GuestBookScreen state I feel it's not fully DRY.
 ### Notes:
 - The whole backend app could have been written in a single file with native http module and a switch statement to handle routing, but I feel my approach is more clean.
 - I did not implement a router in the react app because in this case it's just 2 screens Auth & guestbook it is unnecessary hassle.
